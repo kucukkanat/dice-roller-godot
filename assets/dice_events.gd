@@ -1,5 +1,6 @@
 extends RigidBody3D
-signal _finished_rolling(result:int)
+signal _finished_rolling(result:int, dice_type:String)
+
 func _ready() -> void:
 	# Connect sleeping signal
 	# This catches the sleeping_state_changed signal of the node it is connected to
@@ -14,7 +15,7 @@ func _on_sleeping_state_changed():
 			if face_value >= 0:
 				print("Sleeping - top face value:", face_value)
 				set_meta(GlobalUtils.META_KEY_ROLL_RESULT, face_value)
-				_finished_rolling.emit(face_value)
+				_finished_rolling.emit(face_value,get_name())
 			else:
 				print("Sleeping - highest child:", highest_node.name, "y=", highest_node.global_transform.origin.y)
 		else:

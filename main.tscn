@@ -1,26 +1,33 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpssntaft7e06"]
+[gd_scene load_steps=8 format=3 uid="uid://bpssntaft7e06"]
 
 [ext_resource type="Script" uid="uid://cqqfkftqxysrt" path="res://main.gd" id="1_dg77c"]
+[ext_resource type="Texture2D" uid="uid://ckolvxc1cd84a" path="res://assets/images/sky_18_2k.png" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://devyhr0iqa7n2" path="res://csg_box_3d.gd" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://5ohi6o4t88qh" path="res://assets/right_menu.tscn" id="7_272bh"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h2yge"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lquwl"]
+panorama = ExtResource("2_1bvp3")
 
-[sub_resource type="Sky" id="Sky_1bvp3"]
-sky_material = SubResource("ProceduralSkyMaterial_h2yge")
+[sub_resource type="Sky" id="Sky_7mycd"]
+sky_material = SubResource("PanoramaSkyMaterial_lquwl")
 
-[sub_resource type="Environment" id="Environment_lquwl"]
+[sub_resource type="Environment" id="Environment_272bh"]
 background_mode = 2
-sky = SubResource("Sky_1bvp3")
-tonemap_mode = 2
+sky = SubResource("Sky_7mycd")
+sky_custom_fov = 40.3
+sky_rotation = Vector3(0, 0.33161256, 0)
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_dg77c")
 
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.6212572, 0.021401076, -0.78331435, -3.7252903e-09, 0.99962705, 0.027311005, 0.78360677, -0.016967151, 0.6210255, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1.0000001, 7.450581e-09, -2.9802322e-08, 0, 1.0000001, -1.3038516e-08, 0, 1.8626451e-09, 1, 0.15678161, 0.3890384, 1.2461588)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_lquwl")
+environment = SubResource("Environment_272bh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -39,10 +46,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050109863, 0)
 operation = 2
 size = Vector3(1.3674316, 0.3265381, 1.1994629)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.930328, 0.36672854, 0, -0.36672854, 0.930328, 0.06286621, 0.7960149, 1.0651501)
-
 [node name="RightMenu" parent="." instance=ExtResource("7_272bh")]
 
 [node name="dice_throwing_point" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1022594, 0)
+
+[node name="Roll Result" type="RichTextLabel" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = -5.0
+offset_right = 150.0
+offset_bottom = 65.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Roll Result"

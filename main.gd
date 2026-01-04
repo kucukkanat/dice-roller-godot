@@ -39,14 +39,21 @@ func _process(delta: float) -> void:
 func _on_roll_button_pressed(button:TextureButton) -> void:
 	if button.has_meta("dice_to_roll"):
 		var buttonNameToRoll = button.get_meta("dice_to_roll")
-		print("Rolling:", buttonNameToRoll)
 		_roll_dice(buttonNameToRoll)
 	else:
 		print("Button",button," has no metadata")
 	#print("Will roll:", buttonNameToRoll)
 	pass
-func _dice_finished_rolling(result:int):
-	print("Dice finished rolling and the result is : ", result)
+func _dice_finished_rolling(result:int,dt:String):
+	# Set the total to zero first and then summ all dice results
+	dice_roll_total=0
+	for dice_index in rolled_dices.size():
+		var rolled_dice = rolled_dices[dice_index]
+		if rolled_dice.has_meta(GlobalUtils.META_KEY_ROLL_RESULT):
+			var roll_result=rolled_dice.get_meta(GlobalUtils.META_KEY_ROLL_RESULT)
+			dice_roll_total = dice_roll_total + roll_result
+			$"Roll Result".text="[wave amp=20.0 freq=5.0][rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0] 🎲 "+str(dice_roll_total)+" [/rainbow][/wave]"
+			print("Dice finished rolling and the result is : ", result, "\nDice type is: ", dt)
 
 func _roll_dice(dice_name:String):
 	var spawn_point:Node3D=get_node("dice_throwing_point")
