@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://5ohi6o4t88qh"]
+
+[ext_resource type="Texture2D" uid="uid://cke32mrntyle5" path="res://assets/images/d4.svg" id="1_33iel"]
+[ext_resource type="Texture2D" uid="uid://ch2ficb8wm8b8" path="res://assets/images/d6.svg" id="2_t8tdy"]
+[ext_resource type="Texture2D" uid="uid://do4m0ko7xsxq7" path="res://assets/images/d8.svg" id="3_hosiy"]
+[ext_resource type="Texture2D" uid="uid://u0sia0w7ot45" path="res://assets/images/d10.svg" id="4_4hp21"]
+[ext_resource type="Texture2D" uid="uid://b3i86fjpx1anj" path="res://assets/images/d12.svg" id="5_jvbo1"]
+[ext_resource type="Texture2D" uid="uid://c16r1dfd0pigg" path="res://assets/images/d20.svg" id="6_hv80v"]
+
+[sub_resource type="Theme" id="Theme_2cqfq"]
+
+[node name="RightMenu" type="CanvasLayer"]
+
+[node name="DiceButtons" type="VBoxContainer" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -314.0
+offset_bottom = 314.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="d4" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("1_33iel")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d4"
+
+[node name="d6" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("2_t8tdy")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d6"
+
+[node name="d8" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("3_hosiy")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d8"
+
+[node name="d10" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("4_4hp21")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d10"
+
+[node name="d12" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("5_jvbo1")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d12"
+
+[node name="d20" type="TextureButton" parent="DiceButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_2cqfq")
+texture_normal = ExtResource("6_hv80v")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/dice_to_roll = "d20"
+
+[node name="Clear Button" type="Button" parent="DiceButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Clear"
