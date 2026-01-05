@@ -1,9 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bpssntaft7e06"]
 
-[ext_resource type="Script" uid="uid://cqqfkftqxysrt" path="res://main.gd" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://ckolvxc1cd84a" path="res://assets/images/sky_18_2k.png" id="2_1bvp3"]
-[ext_resource type="Script" uid="uid://devyhr0iqa7n2" path="res://csg_box_3d.gd" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://5ohi6o4t88qh" path="res://assets/right_menu.tscn" id="7_272bh"]
+[ext_resource type="Script" uid="uid://c6lwv4j8vqom0" path="res://assets/dice/dice_manager.gd" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://5ohi6o4t88qh" path="res://assets/right_menu.tscn" id="4_1bvp3"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lquwl"]
 panorama = ExtResource("2_1bvp3")
@@ -17,8 +16,25 @@ sky = SubResource("Sky_7mycd")
 sky_custom_fov = 40.3
 sky_rotation = Vector3(0, 0.33161256, 0)
 
+[sub_resource type="GDScript" id="GDScript_h2yge"]
+script/source = "extends CSGBox3D
+
+
+## Called when the node enters the scene tree for the first time.
+#func _ready() -> void:
+	#pass # Replace with function body.
+#
+#
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+	#pass
+#
+#
+#func _on_button_pressed_memeler() -> void:
+	#pass # Replace with function body.
+"
+
 [node name="main" type="Node3D"]
-script = ExtResource("1_dg77c")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(0.6212572, 0.021401076, -0.78331435, -3.7252903e-09, 0.99962705, 0.027311005, 0.78360677, -0.016967151, 0.6210255, 0, 0, 0)
@@ -39,27 +55,26 @@ use_collision = true
 [node name="CSGBox3D" type="CSGBox3D" parent="dicebox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.053955078, 0)
 size = Vector3(1.5917969, 0.29345703, 1.4863281)
-script = ExtResource("4_lquwl")
+script = SubResource("GDScript_h2yge")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="dicebox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050109863, 0)
 operation = 2
 size = Vector3(1.3674316, 0.3265381, 1.1994629)
 
-[node name="RightMenu" parent="." instance=ExtResource("7_272bh")]
-
-[node name="dice_throwing_point" type="Node3D" parent="."]
+[node name="dice_manager" type="Node3D" parent="." node_paths=PackedStringArray("screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1022594, 0)
+script = ExtResource("3_h2yge")
+screen = NodePath("../Dice Roll Total")
 
-[node name="Roll Result" type="RichTextLabel" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -150.0
-offset_top = -5.0
-offset_right = 150.0
-offset_bottom = 65.0
-grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 48
+[node name="RightMenu" parent="." instance=ExtResource("4_1bvp3")]
+
+[node name="Dice Roll Total" type="RichTextLabel" parent="."]
+offset_right = 474.0
+offset_bottom = 98.0
+theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "Roll Result"
+
+[connection signal="_clear_dices" from="RightMenu" to="dice_manager" method="_clear_all_dices"]
+[connection signal="_dice_throw_button_pressed" from="RightMenu" to="dice_manager" method="_roll_dice"]
