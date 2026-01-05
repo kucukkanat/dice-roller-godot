@@ -13,6 +13,7 @@ config_version=5
 config/name="RollDice"
 run/main_scene="uid://bpssntaft7e06"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/image="uid://bltv15tgpm2p8"
 config/icon="res://icon.svg"
 
 [autoload]
