@@ -24,6 +24,10 @@ GlobalUtils="*res://assets/global.gd"
 window/size/viewport_width=1024
 window/size/viewport_height=768
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/orbit_camera/plugin.cfg")
+
 [physics]
 
 3d/default_gravity=4.253

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c6lwv4j8vqom0" path="res://assets/dice/dice_manager.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://5ohi6o4t88qh" path="res://assets/right_menu.tscn" id="4_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://d37ofaq4s0k5y" path="res://assets/textures/desert_rocks_01_1k_texture/desert_rocks_01_roughness_1k.png" id="4_5vw27"]
+[ext_resource type="Script" uid="uid://uwj3ls4oj3i7" path="res://addons/orbit_camera/orbit_camera.gd" id="6_7mycd"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lquwl"]
 panorama = ExtResource("2_1bvp3")
@@ -25,47 +26,7 @@ ssao_intensity = 2.84
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
 albedo_texture = ExtResource("4_5vw27")
 
-[sub_resource type="GDScript" id="GDScript_lquwl"]
-script/source = "extends OptionButton
-
-@export var Cameras:Array[Camera3D]
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	for camera_index in Cameras.size():
-		var camera_ = Cameras[camera_index]
-		add_item(camera_.name,camera_index)
-	selected=1
-	get_popup().add_theme_font_size_override(\"font_size\", 45)
-		
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
-func _on_item_selected(index: int) -> void:
-	Cameras[index].make_current()
-	pass # Replace with function body.
-"
-
 [node name="main" type="Node3D"]
-
-[node name="c1" type="Node3D" parent="."]
-transform = Transform3D(-0.027439924, 0.22453824, -0.97407895, 0.0053320974, 0.97446483, 0.22447701, 0.9996092, 0.0009657485, -0.027936567, -0.21320674, -0.01879008, -0.17442518)
-
-[node name="Cool Cam" type="Camera3D" parent="c1"]
-transform = Transform3D(1.0000001, 0, 0, 0, 0.98975396, 0.14278442, 0, -0.14278443, 0.98975384, 0.15678158, 0.79120386, 2.0879977)
-fov = 41.1
-
-[node name="c2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.07604033, 0.99710464, 0, -0.99710464, 0.07604033, -0.17004448, -0.026658144, 0.56449664)
-
-[node name="Near Cam" type="Camera3D" parent="c2"]
-transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1, 0.15678161, 0.56741685, 0.42002222)
-fov = 100.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_272bh")
@@ -103,17 +64,14 @@ theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "Roll Result"
 
-[node name="Cameras" type="OptionButton" parent="." node_paths=PackedStringArray("Cameras")]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -63.0
-offset_right = 224.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 50
-script = SubResource("GDScript_lquwl")
-Cameras = [NodePath("../c2/Near Cam"), NodePath("../c1/Cool Cam")]
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.894911, 0.4462447, 0, -0.4462447, 0.894911, 0, 0, 0)
+
+[node name="OrbitCamera" type="Camera3D" parent="Node3D"]
+script = ExtResource("6_7mycd")
+DEFAULT_DISTANCE = 1.0
+ANCHOR_NODE_PATH = NodePath("..")
+metadata/_custom_type_script = "uid://uwj3ls4oj3i7"
 
 [connection signal="_clear_dices" from="RightMenu" to="dice_manager" method="_clear_all_dices"]
 [connection signal="_dice_throw_button_pressed" from="RightMenu" to="dice_manager" method="_roll_dice"]
-[connection signal="item_selected" from="Cameras" to="Cameras" method="_on_item_selected"]
