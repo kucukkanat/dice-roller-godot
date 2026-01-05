@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpssntaft7e06"]
+[gd_scene load_steps=11 format=3 uid="uid://bpssntaft7e06"]
 
 [ext_resource type="Texture2D" uid="uid://ckolvxc1cd84a" path="res://assets/images/sky_18_2k.png" id="2_1bvp3"]
+[ext_resource type="Material" uid="uid://bl1o2rvmh0528" path="res://assets/textures/desert_rocks_texture.tres" id="2_lquwl"]
 [ext_resource type="Script" uid="uid://c6lwv4j8vqom0" path="res://assets/dice/dice_manager.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://5ohi6o4t88qh" path="res://assets/right_menu.tscn" id="4_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://d37ofaq4s0k5y" path="res://assets/textures/desert_rocks_01_1k_texture/desert_rocks_01_roughness_1k.png" id="4_5vw27"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lquwl"]
 panorama = ExtResource("2_1bvp3")
@@ -12,55 +14,80 @@ sky_material = SubResource("PanoramaSkyMaterial_lquwl")
 
 [sub_resource type="Environment" id="Environment_272bh"]
 background_mode = 2
+background_energy_multiplier = 0.65
 sky = SubResource("Sky_7mycd")
-sky_custom_fov = 40.3
-sky_rotation = Vector3(0, 0.33161256, 0)
+sky_custom_fov = 121.4
+ambient_light_energy = 0.91
+ssao_enabled = true
+ssao_radius = 1.92
+ssao_intensity = 2.84
 
-[sub_resource type="GDScript" id="GDScript_h2yge"]
-script/source = "extends CSGBox3D
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_texture = ExtResource("4_5vw27")
+
+[sub_resource type="GDScript" id="GDScript_lquwl"]
+script/source = "extends OptionButton
+
+@export var Cameras:Array[Camera3D]
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	for camera_index in Cameras.size():
+		var camera_ = Cameras[camera_index]
+		add_item(camera_.name,camera_index)
+	selected=1
+	get_popup().add_theme_font_size_override(\"font_size\", 45)
+		
+	pass # Replace with function body.
 
 
-## Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#pass # Replace with function body.
-#
-#
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
-#
-#
-#func _on_button_pressed_memeler() -> void:
-	#pass # Replace with function body.
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_item_selected(index: int) -> void:
+	Cameras[index].make_current()
+	pass # Replace with function body.
 "
 
 [node name="main" type="Node3D"]
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.6212572, 0.021401076, -0.78331435, -3.7252903e-09, 0.99962705, 0.027311005, 0.78360677, -0.016967151, 0.6210255, 0, 0, 0)
+[node name="c1" type="Node3D" parent="."]
+transform = Transform3D(-0.027439924, 0.22453824, -0.97407895, 0.0053320974, 0.97446483, 0.22447701, 0.9996092, 0.0009657485, -0.027936567, -0.21320674, -0.01879008, -0.17442518)
 
-[node name="Camera3D" type="Camera3D" parent="Node3D"]
-transform = Transform3D(1.0000001, 7.450581e-09, -2.9802322e-08, 0, 1.0000001, -1.3038516e-08, 0, 1.8626451e-09, 1, 0.15678161, 0.3890384, 1.2461588)
+[node name="Cool Cam" type="Camera3D" parent="c1"]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.98975396, 0.14278442, 0, -0.14278443, 0.98975384, 0.15678158, 0.79120386, 2.0879977)
+fov = 41.1
+
+[node name="c2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.07604033, 0.99710464, 0, -0.99710464, 0.07604033, -0.17004448, -0.026658144, 0.56449664)
+
+[node name="Near Cam" type="Camera3D" parent="c2"]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1, 0.15678161, 0.56741685, 0.42002222)
+fov = 100.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_272bh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_energy = 0.312
 shadow_enabled = true
 
 [node name="dicebox" type="CSGCombiner3D" parent="."]
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="dicebox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.053955078, 0)
-size = Vector3(1.5917969, 0.29345703, 1.4863281)
-script = SubResource("GDScript_h2yge")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019958496, -0.053955078, -0.013427734)
+size = Vector3(0.8956299, 0.29345703, 1.0737305)
+material = ExtResource("2_lquwl")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="dicebox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050109863, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012786865, 0.050109863, -0.0051574707)
 operation = 2
-size = Vector3(1.3674316, 0.3265381, 1.1994629)
+size = Vector3(0.79571533, 0.3265381, 0.97210693)
+material = SubResource("StandardMaterial3D_lquwl")
 
 [node name="dice_manager" type="Node3D" parent="." node_paths=PackedStringArray("screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1022594, 0)
@@ -76,5 +103,17 @@ theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "Roll Result"
 
+[node name="Cameras" type="OptionButton" parent="." node_paths=PackedStringArray("Cameras")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -63.0
+offset_right = 224.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+script = SubResource("GDScript_lquwl")
+Cameras = [NodePath("../c2/Near Cam"), NodePath("../c1/Cool Cam")]
+
 [connection signal="_clear_dices" from="RightMenu" to="dice_manager" method="_clear_all_dices"]
 [connection signal="_dice_throw_button_pressed" from="RightMenu" to="dice_manager" method="_roll_dice"]
+[connection signal="item_selected" from="Cameras" to="Cameras" method="_on_item_selected"]
